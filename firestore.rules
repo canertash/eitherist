@@ -1,0 +1,23 @@
+rules_version = '2';
+
+service cloud.firestore {
+  match /databases/{database}/documents {
+    // Eitherist – decisions: kullanıcılar oluşturabilir ve okuyabilir
+    // Cloud Function sadece Admin SDK ile result/status günceller (Rules bypass)
+    match /decisions/{docId} {
+      allow create: if request.resource.data.keys().hasAll(['question', 'options', 'mode', 'status', 'createdAt'])
+        && request.resource.data.status == 'pending'
+        && request.resource.data.question is string
+        && request.resource.data.question.size() <= 200
+        && request.resource.data.mode is string
+        && request.resource.data.mode.size() <= 50
+        && request.resource.data.options is list
+        && request.resource.data.options.size() >= 2;
+      allow read: if true;   // DocId bilen herkes okuyabilir (geçici; auth eklenince kısıtla)
+      allow update, delete: if false;  // Sadece Cloud Function (Admin SDK) güncelleyebilir
+    }
+    match /{document=**} {
+      allow read, write: if false;
+    }
+  }
+}

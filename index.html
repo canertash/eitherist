@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Eitherist</title>
+  <link rel="icon" type="image/png" href="assets/favicon.png">
+  <link rel="apple-touch-icon" href="assets/icon-192.png">
+  <link rel="manifest" href="manifest.json">
+  <meta name="theme-color" content="#1a1a1a">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="default">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;1,9..40,400&family=Outfit:wght@500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+  <main class="main">
+    <!-- Logo -->
+    <h1 class="logo">
+      <img src="assets/logo.png" alt="eitherist" class="logo-img">
+    </h1>
+
+    <!-- Search bar -->
+    <div class="search-container">
+      <div class="search-wrapper" id="searchWrapper">
+        <span class="search-icon" aria-hidden="true">?</span>
+        <input 
+          type="text" 
+          id="searchInput" 
+          class="search-input" 
+          placeholder="Karar vermek istediğim şey..."
+          autocomplete="off"
+          autofocus
+          maxlength="200"
+          data-placeholder-default="Karar vermek istediğim şey..."
+        >
+        <span class="search-error" id="searchError" aria-live="polite"></span>
+        <button class="search-clear" id="clearSearch" aria-label="Temizle" style="display: none;">×</button>
+        <div class="mode-dropdown-wrapper">
+          <button type="button" class="btn-mode-dropdown" id="modeDropdownBtn" aria-expanded="false" aria-haspopup="true">
+            <span class="mode-dropdown-icon" id="modeDropdownIcon" aria-hidden="true"></span>
+            <span class="mode-dropdown-label" id="modeDropdownLabel">Rastgele</span>
+          </button>
+          <div class="mode-chips-dropdown" id="modeChipsDropdown">
+            <div class="mode-chips">
+              <button type="button" class="mode-chip active" data-mode="rastgele"><span class="mode-chip-icon" data-icon="rastgele"></span>Rastgele</button>
+              <button type="button" class="mode-chip" data-mode="akılcı"><span class="mode-chip-icon" data-icon="akılcı"></span>Akılcı</button>
+              <button type="button" class="mode-chip" data-mode="eğlenceli"><span class="mode-chip-icon" data-icon="eğlenceli"></span>Eğlenceli</button>
+              <button type="button" class="mode-chip" data-mode="mantıklı"><span class="mode-chip-icon" data-icon="mantıklı"></span>Mantıklı</button>
+              <button type="button" class="mode-chip" data-mode="hızlı"><span class="mode-chip-icon" data-icon="hızlı"></span>Hızlı</button>
+              <button type="button" class="mode-chip" data-mode="düşünceli"><span class="mode-chip-icon" data-icon="düşünceli"></span>Düşünceli</button>
+              <button type="button" class="mode-chip" data-mode="yaratıcı"><span class="mode-chip-icon" data-icon="yaratıcı"></span>Yaratıcı</button>
+              <button type="button" class="mode-chip" data-mode="spontan"><span class="mode-chip-icon" data-icon="spontan"></span>Spontan</button>
+              <button type="button" class="mode-chip mode-chip-custom" data-mode="custom">
+                <span class="mode-chip-icon" data-icon="custom"></span>
+                <span class="custom-mode-label">Özel</span>
+                <input type="text" class="custom-mode-input" placeholder="mod adı" maxlength="50">
+              </button>
+            </div>
+          </div>
+        </div>
+      </div>
+      <p class="search-info">İnternet ortamında kişisel bilgilerinizi paylaşmamaya özen gösteriniz.</p>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="action-buttons">
+      <button type="button" class="btn-secondary" id="addOptionBtn">
+        <span class="btn-icon" aria-hidden="true">
+          <svg width="14" height="14" viewBox="0 0 14 14" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" xmlns="http://www.w3.org/2000/svg">
+            <path d="M7 3v8M3 7h8"/>
+          </svg>
+        </span>
+        Seçenek Ekle
+      </button>
+      <button type="button" class="search-decide-icon" id="decideBtn" aria-label="Karar Ver">
+        <span class="decide-btn-text">Karar Ver</span>
+      </button>
+    </div>
+
+    <!-- Options section (option bars added dynamically) -->
+    <div class="options-section" id="optionsSection">
+      <div class="options-container" id="optionsContainer"></div>
+      <div class="options-footer" id="optionsFooter">
+        <span class="options-error" id="optionsError" aria-live="polite"></span>
+        <div class="options-add-slot" id="optionsAddSlot"></div>
+        <div class="options-actions" id="optionsActions"></div>
+      </div>
+    </div>
+
+    <!-- Result area -->
+    <div class="result-area" id="resultArea">
+      <div class="result-content" id="resultContent"></div>
+    </div>
+  </main>
+
+  <footer class="site-footer">
+    <div class="footer-inner">
+      <div class="footer-col-right">
+        <nav class="footer-nav">
+          <div class="footer-dropdown">
+            <span class="footer-dropdown-trigger">Hakkımızda</span>
+            <div class="footer-dropdown-menu">
+              <a href="#">Eitherist</a>
+              <a href="#">Erktas</a>
+            </div>
+          </div>
+          <div class="footer-dropdown">
+            <span class="footer-dropdown-trigger">Politikalar</span>
+            <div class="footer-dropdown-menu">
+              <a href="#">Gizlilik Politikası</a>
+              <a href="#">Kullanım Koşulları</a>
+              <a href="#">Çerez Politikası</a>
+              <a href="#">Reklam Politikası</a>
+            </div>
+          </div>
+          <div class="footer-dropdown">
+            <span class="footer-dropdown-trigger">İş Birliği</span>
+            <div class="footer-dropdown-menu">
+              <a href="#">Reklam Rezervasyonu</a>
+              <a href="#">Sponsorluk Rezervasyonu</a>
+              <a href="#">API Talep Formu</a>
+            </div>
+          </div>
+          <div class="footer-dropdown">
+            <span class="footer-dropdown-trigger">Ayarlar</span>
+            <div class="footer-dropdown-menu">
+              <a href="#">Dil</a>
+              <a href="#">Bölge</a>
+              <a href="#">Özel Tercihler</a>
+            </div>
+          </div>
+          <div class="footer-dropdown">
+            <span class="footer-dropdown-trigger">Yardım</span>
+            <div class="footer-dropdown-menu">
+              <a href="#">Sıkça Sorulan Sorular</a>
+              <a href="#">Teknik Destek</a>
+              <a href="#">İletişim</a>
+            </div>
+          </div>
+        </nav>
+        <p class="footer-copyright">© 2026 EITHERIST BY ERKTAS</p>
+      </div>
+    </div>
+  </footer>
+
+  <!-- Firebase config (firebase-config.example.js → firebase-config.js kopyalayıp doldurun) -->
+  <script src="firebase-config.js"></script>
+  <!-- Firebase -->
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-firestore-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/10.7.1/firebase-analytics-compat.js"></script>
+  <!-- Sunucuya veri göndermek için (app.js önce yüklenmeli):
+  <script>window.EITHERIST_CONFIG = { LOG_URL: "https://api.erktas.net/eitherist/log" };</script>
+  -->
+  <script src="app.js"></script>
+</body>
+</html>
